@@ -37,6 +37,7 @@ progenitrix
 arbitratrix
 consolatrix
 negotiatrix
+xylanthrax
 squeezebox
 chickenpox
 quadraplex
@@ -630,3 +631,4 @@ tux
 ax
 ex
 ox
+
