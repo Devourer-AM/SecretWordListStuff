@@ -183,7 +183,7 @@ local info = Instance.new("TextLabel", b)
 info.Size = UDim2.new(1, -10, 0, 30)
 info.Position = UDim2.new(0,5,0,85)
 info.BackgroundTransparency = 1
-info.Text = "Updated Dictionary Words (463k)"
+info.Text = "Please Wait For A Moment. The Dictionary is Updating..."
 info.TextColor3 = Color3.fromRGB(100, 255, 100)
 info.Font = Enum.Font.Gotham
 info.TextSize = 10
@@ -443,4 +443,5 @@ spawn(function()
     if h.Text ~= "" then
         UpdateSuggestions()
     end
+
 end)
