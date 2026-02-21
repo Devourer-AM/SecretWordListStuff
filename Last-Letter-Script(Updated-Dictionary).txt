@@ -114,7 +114,7 @@ local title = Instance.new("TextLabel", b)
 title.Size = UDim2.new(1, -10, 0, 25)
 title.Position = UDim2.new(0,5,0,5)
 title.BackgroundTransparency = 1
-title.Text = "Word Finder"
+title.Text = "Word Finder V2 (Works On Pro Server)"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBold
 title.TextSize = 14
@@ -445,4 +445,5 @@ spawn(function()
     end
 
 end)
+
 
