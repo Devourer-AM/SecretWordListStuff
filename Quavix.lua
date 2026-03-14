@@ -356,10 +356,30 @@ end)
 
 spawn(function()
     while not loaded do wait(0.1) end
+
     statusLabel.Text = "Ready! " .. #Words .. " words loaded"
     statusLabel.TextColor3 = Color3.fromRGB(100,255,100)
     statusLabel.TextSize = 10
+
+    local StarterGui = game:GetService("StarterGui")
+
+    local function notify(message)
+        pcall(function()
+            StarterGui:SetCore("SendNotification", {
+                Title = "Word Finder V2",
+                Text = message,
+                Duration = 5
+            })
+        end)
+    end
+
+    wait(0)
+    notify("Word Finder V2 is now active! All words work on Pro Server.")
+    wait(0)
+    notify("Updated Dictionary By Quavix :)")
     wait(3)
+    notify("1563 words added (updated on 3/14/26)")
+
     statusLabel.Visible = false
 
     if h.Text ~= "" then
