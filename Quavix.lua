@@ -49,7 +49,7 @@ local function SuggestWords(input, count)
     
     for i=1,#searchList do
         local word = searchList[i]
-        if word:sub(1,#input) == input then
+        if string.find(word, "^"..input) then
             table.insert(possible, word)
         end
     end
@@ -98,7 +98,7 @@ local title = Instance.new("TextLabel",b)
 title.Size=UDim2.new(1,-10,0,25)
 title.Position=UDim2.new(0,5,0,5)
 title.BackgroundTransparency=1
-title.Text="Word Finder V2.5"
+title.Text="Word Finder V3"
 title.TextColor3=Color3.fromRGB(255,255,255)
 title.Font=Enum.Font.GothamBold
 title.TextSize=14
@@ -320,7 +320,7 @@ end)
 nextButton.MouseButton1Click:Connect(function()
     local text=h.Text
     if #text<1 then return end
-    local suggests=SuggestWords(text,1000)
+    local suggests=SuggestWords(text,200)
     local totalPages=math.ceil(#suggests/wordsPerPage)
     if currentPage<totalPages then
         currentPage=currentPage+1
@@ -366,7 +366,7 @@ spawn(function()
     local function notify(message)
         pcall(function()
             StarterGui:SetCore("SendNotification", {
-                Title = "Word Finder V2.5",
+                Title = "Word Finder V3",
                 Text = message,
                 Duration = 10
             })
@@ -374,18 +374,18 @@ spawn(function()
     end
 
     wait(0.1)
-    notify("Word Finder V2.5 is now active! All words work on Pro Server.")
+    notify("Word Finder V3 is now active! All words work on Pro Server.")
     wait(0.1)
     notify("Updated Dictionary By Quavix. Meet Me In Scriptblox.com :)")
     wait(0.1)
-    notify("Auto Detect Prefix (Beta) Will Lag If You Type More Than 11 Letters.")
+    notify("Auto Detect Prefix Lag Is Fixed")
     wait(5)
     notify("4 new words added (Updated on 3/16/2026)")
     wait(10)
     
     pcall(function()
     StarterGui:SetCore("SendNotification", {
-        Title = "Word Finder V2.5",
+        Title = "Word Finder V3",
         Text = "Be careful when using this, because some players are extremely active in reporting others. They can detect when players are searching or not. Even a single report that gets resolved could get you banned.",
         Duration = 30
     })
@@ -403,12 +403,12 @@ local playerGui = player:WaitForChild("PlayerGui")
 
 local function detectPrefix()
 
-    for _,obj in pairs(playerGui:GetDescendants()) do
+    for _,obj in ipairs(playerGui:GetDescendants()) do
         if obj.Name == "CurrentWord" then
 
             local letters = {}
 
-            for _,child in pairs(obj:GetChildren()) do
+            for _,child in ipairs(obj:GetChildren()) do
                 if child:IsA("GuiObject") and child.Visible then
                     local txt = child:FindFirstChild("Letter")
 
@@ -438,8 +438,7 @@ local function detectPrefix()
     return ""
 end
 
-function UpdatePrefixSuggestions()
-    local prefix = detectPrefix()
+function UpdatePrefixSuggestions(prefix)
     if prefix == "" then return end
 
     local suggests = SuggestWords(prefix, 50)
@@ -464,10 +463,19 @@ local lastPrefix = ""
 task.spawn(function()
     while true do
         local prefix = detectPrefix()
-        local truncatedPrefix = prefix:sub(1, 10)
+
+        if prefix:find("%.%.%.") then
+            prefixLabel.Text = "Prefix: ..."
+            task.wait(0.1)
+            continue
+        end
+
+        local truncatedPrefix = prefix:sub(1,10)
+
         if truncatedPrefix ~= lastPrefix then
             lastPrefix = truncatedPrefix
             ClearSuggestions()
+
             if truncatedPrefix ~= "" then
                 prefixLabel.Text = "Prefix: "..truncatedPrefix
                 UpdatePrefixSuggestions(truncatedPrefix)
@@ -475,6 +483,7 @@ task.spawn(function()
                 prefixLabel.Text = "Prefix: -"
             end
         end
-        task.wait(0.1)
+
+        task.wait(0)
     end
 end)
