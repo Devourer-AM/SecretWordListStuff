@@ -241,13 +241,13 @@ pageLabel.TextXAlignment=Enum.TextXAlignment.Center
 
 local statusLabel = Instance.new("TextLabel", pageFrame)
 statusLabel.Size = UDim2.new(1, -10, 0, 30)
-statusLabel.Position = UDim2.new(0, 0, 1, 0)
+statusLabel.Position = UDim2.new(0, 0, 1, -5)
 statusLabel.BackgroundTransparency = 1
-statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
-statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextColor3 = Color3.fromRGB(80, 150, 255)
+statusLabel.Font = Enum.Font.GothamBold
 statusLabel.TextSize = 10
 statusLabel.TextXAlignment=Enum.TextXAlignment.Center
-statusLabel.Text = "Loading words, please wait..."
+statusLabel.Text = "Loading Words..."
 
 local nextButton = Instance.new("TextButton",pageFrame)
 nextButton.Size=UDim2.new(0.2,0,1,0)
@@ -320,7 +320,7 @@ end)
 nextButton.MouseButton1Click:Connect(function()
     local text=h.Text
     if #text<1 then return end
-    local suggests=SuggestWords(text,200)
+    local suggests=SuggestWords(text,1000)
     local totalPages=math.ceil(#suggests/wordsPerPage)
     if currentPage<totalPages then
         currentPage=currentPage+1
@@ -337,7 +337,7 @@ h:GetPropertyChangedSignal("Text"):Connect(function()
         message.Size = UDim2.new(1,0,0,22)
         message.BackgroundTransparency = 1
         message.Text = "Loading words, please wait..."
-        message.TextColor3 = Color3.fromRGB(100,255,100)
+        message.TextColor3 = Color3.fromRGB(80,150,255)
         message.Font = Enum.Font.Gotham
         message.TextSize = 10
         message.TextXAlignment = Enum.TextXAlignment.Center
@@ -357,9 +357,11 @@ end)
 spawn(function()
     while not loaded do wait(0.1) end
 
-    statusLabel.Text = "Ready! " .. #Words .. " words loaded"
-    statusLabel.TextColor3 = Color3.fromRGB(100,255,100)
+    statusLabel.Text = "Words Loaded Successfully!"
+    statusLabel.TextColor3 = Color3.fromRGB(80,150,255)
+    statusLabel.Font = Enum.Font.GothamBold
     statusLabel.TextSize = 10
+    statusLabel.Position = UDim2.new(0, 0, 1, -5)
 
     local StarterGui = game:GetService("StarterGui")
 
@@ -380,7 +382,7 @@ spawn(function()
     wait(0.1)
     notify("Auto Detect Prefix Lag Is Fixed")
     wait(5)
-    notify("Adding 4 New Words and Removing 3 Words (Updated on 3/21/2026)")
+    notify("Adding 4 New Words and Removing 4 Words (Updated on 3/21-22/2026)")
     wait(10)
     
     pcall(function()
